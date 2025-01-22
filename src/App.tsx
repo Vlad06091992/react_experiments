@@ -1,26 +1,21 @@
-import React, {useState, useEffect, useRef} from 'react';
-
-
-//менятеся ref.current, но компонента не ререндерится
+import React, { useState, useEffect, useRef } from 'react';
 
 const App = () => {
-    let {current} = useRef(null) as any
-    const [value, setValue] = useState(0)
-debugger
-    useEffect(() => {
-        setValue(value + 1)
-    }, [current])
+    const ref = useRef(0); // Создание рефа с начальным значением 0
+    const [value, setValue] = useState(0);
+
+    const increment = () => {
+        ref.current += 1; // Увеличение значения ref.current
+        setValue(ref.current); // Обновляем состояние для рендеринга
+    };
 
     return (
         <div>
             <span>{value}</span>
-            <button onClick={()=>{
-                debugger
-                current = current +1
-            }}>+</button>
+            <span>{ref.current}</span>
+            <button onClick={increment}>+</button>
         </div>
-    )
-
+    );
 };
 
 export default App;
