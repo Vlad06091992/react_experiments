@@ -9,20 +9,36 @@ import React, {forwardRef, useEffect, useRef} from 'react';
 
  */
 
-const Input = forwardRef((props, ref:any) => {
-    return <input ref={ref} {...props} />;
+const Input = forwardRef((props:any, ref:any) => {
+    return <input onChange={props.onChange} ref={ref} {...props} />;
 });
 
 
 const App = () => {
     const inputRef = useRef(null) as any;
+    const spanRef = useRef(null) as any;
+
+    const onChange = (e:any) => {
+        debugger
+        spanRef.current.innerHTML = e.target.value
+    }
 
     useEffect(() => {
         inputRef.current.focus()
         inputRef.current.value = '33333'
+        spanRef.current.innerHTML = '33333'
     }, []);
 
-    return <Input ref={inputRef} />;
+    debugger
+
+    return (
+        <div>
+            <div ref={spanRef}></div>
+            <Input onChange={onChange} ref={inputRef} />)
+
+        </div>
+    )
+
 };
 
 export default App;
