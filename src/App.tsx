@@ -2,16 +2,17 @@ import React, {forwardRef, useEffect, useRef} from 'react';
 
 //forwardRef позволяет вашему компоненту передать узел DOM родительскому компоненту с помощью ref
 /*
-мы хотим получать управление ребенком, ребенку прокидываем ref, корневому элементу в разметке ребенка
-этот реф присваиваем
-
-а родитель с этим рефом может что-либо делать
+Пример когда прокидываем ref через пропсы, не используя зарезервированный атрибут ref в Input
 
  */
 
-const Input = forwardRef((props:any, ref:any) => {
-    return <input onChange={props.onChange} ref={ref} {...props} />;
-});
+// const Input = forwardRef((props:any, ref:any) => {
+//     return <input onChange={props.onChange} ref={ref} {...props} />;
+// });
+
+const Input = ({refs,onChange,...rest}:any) => {
+    return <input onChange={onChange} ref={refs} {...rest} />;
+}
 
 
 const App = () => {
@@ -34,7 +35,7 @@ const App = () => {
     return (
         <div>
             <div ref={spanRef}></div>
-            <Input onChange={onChange} ref={inputRef} />)
+            <Input onChange={onChange} refs={inputRef} />)
 
         </div>
     )
