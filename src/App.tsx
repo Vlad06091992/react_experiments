@@ -1,21 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {forwardRef, useEffect, useRef} from 'react';
+
+//forwardRef позволяет вашему компоненту передать узел DOM родительскому компоненту с помощью ref
+/*
+мы хотим получать управление ребенком, ребенку прокидываем ref, корневому элементу в разметке ребенка
+этот реф присваиваем
+
+а родитель с этим рефом может что-либо делать
+
+ */
+
+const Input = forwardRef((props, ref:any) => {
+    return <input ref={ref} {...props} />;
+});
+
 
 const App = () => {
-    const ref = useRef(0); // Создание рефа с начальным значением 0
-    const [value, setValue] = useState(0);
+    const inputRef = useRef(null) as any;
 
-    const increment = () => {
-        ref.current += 1; // Увеличение значения ref.current
-        setValue(ref.current); // Обновляем состояние для рендеринга
-    };
+    useEffect(() => {
+        inputRef.current.focus()
+        inputRef.current.value = '33333'
+    }, []);
 
-    return (
-        <div>
-            <span>{value}</span>
-            <span>{ref.current}</span>
-            <button onClick={increment}>+</button>
-        </div>
-    );
+    return <Input ref={inputRef} />;
 };
 
 export default App;
