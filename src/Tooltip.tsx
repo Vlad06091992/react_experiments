@@ -7,14 +7,14 @@ export default function Tooltip({ children, targetRect }:any) {
     const [tooltipHeight, setTooltipHeight] = useState(0);
 
     useLayoutEffect(() => {
-        debugger
+        // debugger
         // @ts-ignore
         const { height } = ref.current.getBoundingClientRect();
         setTooltipHeight(height);
     }, []);
 
     useEffect(() => {
-       debugger
+       // debugger
         // @ts-ignore
         const { height } = ref.current.getBoundingClientRect();
         setTooltipHeight(height);
