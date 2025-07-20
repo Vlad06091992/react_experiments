@@ -1,26 +1,65 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useEffect, useLayoutEffect, useReducer } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+ const App = () => {
+   const [num, triggerRerender] = useReducer((v) => v + 1, 0);
 
-export default App;
+   (window as any).triggerRerender = triggerRerender;
+
+   console.log("parent: render");
+
+
+   useEffect(() => {
+     debugger
+     console.log("parent: effect");
+     return () => {
+       console.log("parent: cleanup effect");
+     };
+   }, [num]);
+
+   useLayoutEffect(() => {
+     debugger
+     console.log("parent: layout effect");
+     return () => {
+       console.log("parent: cleanup layout effect");
+     };
+   }, [num]);
+
+   return (
+       <>
+         <div>parent</div>
+         <div>{num}</div>
+         <button onClick={triggerRerender}>parent</button>
+         <Child num={num}/>;
+       </>
+   )
+
+ }
+
+
+const Child = ({ num }: { num: number }) => {
+  console.log("child: render");
+
+  useLayoutEffect(() => {
+    debugger
+    console.log("child: layout effect");
+    return () => {
+      console.log("child: cleanup layout effect");
+    };
+  }, [num]);
+
+  useEffect(() => {
+    debugger
+    console.log("child: effect");
+    return () => {
+      console.log("child: cleanup effect");
+    };
+  }, [num]);
+
+  return <div>
+    child
+    <div>{num}</div>
+  </div>;
+};
+
+export default App
